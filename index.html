@@ -12,75 +12,118 @@
 <body>
   <nav>
     <div class="right-top-shoppingcart-icon">
-      <img src="./image/shopping-cart (2).png" alt="shopping-cart-icon" />
+      <img src="./image/shopping-cart (2).png" alt="shopping-cart-icon" onclick="showShoppingCart();" />
       <p id="itemAmount">0</p>
     </div>
   </nav>
-  <div class="process">
+  <div id="side-nav" style=" display:none;">
+    <ul>
+      <li>0</li>
+      <li>1</li>
+      <li>2</li>
+    </ul>
+  </div>
+  <div id="hide-side-nav" onClick="hideSideNav();" style=" display:none;"></div>
+  <div class=" process ">
     REVIEW > ORDER > PAYMENT
   </div>
-  <div class="shopping-list-container">
-    <div class="product-info">
-      <img id="big-image" src="./image/red.jpg" />
-    </div>
-    <div class="small-option-container">
-      <div id="red-small" onclick="document.getElementById('big-image').src='./image/red.jpg'">
+  <div class="shopping-list-container ">
+    <div class="left-container ">
+      <div class="product-img ">
+        <img id="big-image" src="./image/red.jpg " />
       </div>
-      <div id="green-small" onclick="document.getElementById('big-image').src='./image/green.jpg'">
-      </div>
-      <br>
-      <button onclick="addToCart()">Add to Cart</button>
     </div>
+    <div class="right-container ">
+      <p id="product-name">INTRO_PRODUCT NAME</p>
+      <p id="product-description">INTRO_PRODUCT DESCRIPTION</p>
+      <p id="product-price">200</p>
+      <div class="small-option-container">
+        <div id="red-small" onclick="document.getElementById('big-image').src='./image/red.jpg'">
+        </div>
+        <div id="green-small" onclick="document.getElementById('big-image').src='./image/green.jpg'">
+        </div>
+        <br>
+        <button onclick="addToCart()">Add to Cart</button>
+      </div>
+    </div>
+
   </div>
-  <div class="product-list">
+  <div id="product-list">
     <div class="single-item">
-      <img src="./image/red.jpg" alt="product cover picture" />
+      <img src="./image/red.jpg" alt="product cover picture " />
       <div class="product-info">
-        <p id="product-name">PRODUCT NAME</p>
-        <p id="product-description">PRODUCT DESCRIPTION</p>
-        <select name="text">
+        <p id="choosed-product-name">CHOOSED_PRODUCT NAME</p>
+        <p id="choosed-product-description">CHOOSED_PRODUCT DESCRIPTION</p>
+        <p id="choosed-product-price">200</p>
+        <select id="amount">
           <option value="value1">1</option>
           <option value="value2">2</option>
           <option value="value3">3</option>
           <option value="value4">4</option>
           <option value="value5">5</option>
         </select>
-        <span>X</span>
-      </div>
-    </div>
-    <div class="single-item">
-      <img src="./image/red.jpg" alt="product cover picture" />
-      <div class="product-info">
-        <p id="product-name">PRODUCT NAME</p>
-        <p id="product-description">PRODUCT DESCRIPTION</p>
-        <select name="text">
-          <option value="value1">1</option>
-          <option value="value2">2</option>
-          <option value="value3">3</option>
-          <option value="value4">4</option>
-          <option value="value5">5</option>
-        </select>
-        <span>X</span>
+        <span onclick=" ">X</span>
       </div>
     </div>
   </div>
-  <div class="checkout-container">
+  <div id="checkout-container">
     <span>TOTAL:</span>
-    <span>1000</span>
+    <span id="total"></span>
     <span>
       <button>ORDER</button>
     </span>
   </div>
-</body>
-<script>
-  // 點擊加入購物車的按鈕後，要跳出side-nav顯示目前購物車的東西，然後購物車的數量要++
-  //先把他顯示在下面好ㄌ不然太煩ㄌ
-  function addToCart() {
-    var itemAmount = document.getElementById("itemAmount").innerHTML;
-    var itemAmountParsed = parseInt(itemAmount);
-    document.getElementById("itemAmount").innerHTML = itemAmountParsed + 1;
-  }
+  <script>
+    // 點擊加入購物車的按鈕後，要跳出side-nav(大約三秒？？->setTimeOut)顯示目前購物車的東西，然後購物車的數量要++
+    //先把他顯示在下面好ㄌ不然太煩ㄌ
 
-</script>
+    function addToCart() {
+      //購物車內的商品數量會增加
+      var itemAmount = document.getElementById("itemAmount").innerHTML;
+      var itemAmountParsed = parseInt(itemAmount);
+      document.getElementById("itemAmount").innerHTML = itemAmountParsed + 1;
+
+      // 把商品資訊顯示在購物車中(現在是下方資訊欄)
+      var itemChoosed = document.createElement("div");
+      itemChoosed.className = "single-item";
+      var itemChoosedName = document.createTextNode(document.getElementById("product-name").innerHTML);
+      var itemChoosedDescription = document.createTextNode(document.getElementById("product-description").innerHTML);
+      var itemChoosedPrice = document.createTextNode(document.getElementById("product-price").innerHTML);
+      // var itemChoosedInfo = { name: itemChoosedName, description: itemChoosedDescription };
+      // 想把這裡的所有內容包成一個物件
+      // 想把這裡的所有內容包成一個物件
+      // 想把這裡的所有內容包成一個物件
+      itemChoosed.appendChild(itemChoosedDescription);
+      itemChoosed.appendChild(itemChoosedName);
+      itemChoosed.appendChild(itemChoosedPrice);
+      //差一張圖@@，還有排版的問題
+      document.getElementById("product-list").appendChild(itemChoosed);
+
+      //點擊加入購物車的按鈕後，會跳出現在購物車內的東西
+      document.getElementById("side-nav").style.display = "block";
+      document.getElementById("hide-side-nav").style.display = "inline-block";
+
+      //出現三秒之後自動消失->setTimeOut
+      // setTimeout(hideSideNav(), 3000);
+    }
+
+    var itemChoosedPrice = document.getElementById("product-price").innerHTML;
+    var itemPriceParsed = parseInt(itemChoosedPrice);
+    document.getElementById("total").innerHTML = itemChoosedPrice;
+    console.log(itemChoosedPrice);
+
+    //隱藏sideNav
+    function hideSideNav() {
+      document.getElementById("side-nav").style.display = "none";
+      document.getElementById("hide-side-nav").style.display = "none";
+    }
+
+    function showShoppingCart() {
+      document.getElementById("side-nav").style.display = "block";
+      document.getElementById("hide-side-nav").style.display = "inline-block";
+    }
+  </script>
+</body>
+
 
 </html>
